@@ -1,0 +1,68 @@
+[tool.poetry]
+name = "crypto-tracker"
+version = "0.1.0"
+description = "Application for getting exchange pair for crypto"
+authors = ["Ioann Materov <ivan.materov23@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+# An WSGI server. Used to start uvicorn server on multiple cores
+# Checkout https://fastapi.tiangolo.com/deployment/server-workers/
+# https://github.com/benoitc/gunicorn
+gunicorn = "^21.2.0"
+# An ASGI server
+# https://github.com/encode/uvicorn
+uvicorn = "^0.24.0.post1"
+# Async web framework
+# https://github.com/tiangolo/fastapi
+fastapi = "^0.104.1"
+# Data validation based on type hints
+# https://github.com/pydantic/pydantic
+pydantic = "^2.4.2"
+# Settings management using pydantic
+# https://github.com/pydantic/pydantic-settings
+pydantic-settings = "^2.0.3"
+# ORM and toolkit for SQL
+# https://github.com/sqlalchemy/sqlalchemy
+sqlalchemy = "^2.0.23"
+# A sqlalchemy migration tool
+# https://github.com/sqlalchemy/alembic
+alembic = "^1.12.1"
+# PostgreSQL engine
+# https://github.com/psycopg/psycopg2
+psycopg2-binary = "^2.9.9"
+# Retrying library for Python
+# https://github.com/jd/tenacity
+tenacity = "^8.2.3"
+
+
+[tool.poetry.group.dev.dependencies]
+# Debugging with pretty interface
+# https://github.com/gotcha/ipdb
+ipdb = "^0.13.13"
+# A testing framework
+# https://github.com/pytest-dev/pytest
+pytest = "^7.4.3"
+# Coverage plugin for pytest
+# https://github.com/pytest-dev/pytest-cov
+pytest-cov = "^4.1.0"
+# Pretty output for pytest
+# https://github.com/Teemu/pytest-sugar
+pytest-sugar = "^0.9.7"
+# Sort imports
+# https://github.com/PyCQA/isort
+isort = "^5.12.0"
+# Linter for python code
+# https://github.com/PyCQA/flake8/
+flake8 = "^6.1.0"
+# Invoke scripts for common develop tasks
+# https://github.com/saritasa-nest/saritasa-invocations
+saritasa-invocations = "^0.9.1"
+# A framework for managing and maintaining multi-language pre-commit hooks
+# https://github.com/pre-commit/pre-commit
+pre-commit = "^3.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

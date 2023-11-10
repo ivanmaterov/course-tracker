@@ -1,0 +1,34 @@
+version: "3.3"
+services:
+  postgres:
+    image: postgres:12
+    volumes:
+      - database-volume:/var/lib/postgresql/data/pgdata
+    env_file:
+      - .env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      # to use external connection
+      - "5432:5432"
+    deploy:
+      placement:
+        # https://docs.docker.com/engine/reference/commandline/service_create/#constraint
+        constraints:
+          - node.labels.crypto-tracker.database-volume == true
+
+  backend:
+    ports:
+      - "8000:8000"
+    build:
+      context: .
+    depends_on:
+      - postgres
+    environment:
+      - GUNICORN_CONFIG=python:settings.gunicorn_conf
+    # Don't use this command for production
+    command: uvicorn --reload --host 0.0.0.0 --port 8000 --log-level info app.main:app
+    # command: gunicorn -k uvicorn.workers.UvicornWorker -c $GUNICORN_CONFIG $APP_MODULE:app
+
+volumes:
+  database-volume:
