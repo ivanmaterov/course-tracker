@@ -33,6 +33,7 @@ ns.configure(
             ),
             alembic=invocations.AlembicSettings(
                 migrations_folder='alembic/versions',
+                adjust_messages=('update', 'downgrade'),
             ),
         ),
     },

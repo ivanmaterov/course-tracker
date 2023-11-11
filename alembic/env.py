@@ -1,10 +1,10 @@
 from __future__ import with_statement
 
-import os
+from logging.config import fileConfig
+
+from sqlalchemy import engine_from_config, pool
 
 from alembic import context
-from sqlalchemy import engine_from_config, pool
-from logging.config import fileConfig
 from settings.config import settings
 
 # this is the Alembic Config object, which provides
@@ -21,7 +21,7 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 # target_metadata = None
 
-from app.core.db.models.base import BaseModel  # noqa
+from app.db.base import BaseModel  # noqa
 
 target_metadata = BaseModel.metadata
 
