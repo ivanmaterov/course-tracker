@@ -1,6 +1,8 @@
-# python cache
+# caches
 __pycache__
-# mypy cache
 .mypy_cache
+.pytest_cache
 # pyenv version file
 .python-version
+# File is created by MacOS
+.DS_Store

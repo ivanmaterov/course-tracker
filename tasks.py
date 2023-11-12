@@ -30,9 +30,10 @@ ns.configure(
             ),
             fastapi=invocations.FastAPISettings(
                 app='app.main:app',
+                params='--app-dir backend',
             ),
             alembic=invocations.AlembicSettings(
-                migrations_folder='alembic/versions',
+                migrations_folder='backend/alembic/versions',
                 adjust_messages=('update', 'downgrade'),
             ),
         ),
