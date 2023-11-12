@@ -35,12 +35,21 @@ psycopg2-binary = "^2.9.9"
 # Retrying library for Python
 # https://github.com/jd/tenacity
 tenacity = "^8.2.3"
+# HTTP toolkit
+# https://github.com/projectdiscovery/httpx
+httpx = "^0.25.1"
+# Utils for sqlalchemy
+# https://github.com/kvesteri/sqlalchemy-utils/
+sqlalchemy-utils = "^0.41.1"
 
 
 [tool.poetry.group.dev.dependencies]
 # Debugging with pretty interface
 # https://github.com/gotcha/ipdb
 ipdb = "^0.13.13"
+# Library to generate instances based on ORM models
+# https://github.com/FactoryBoy/factory_boy
+factory-boy = "^3.3.0"
 # A testing framework
 # https://github.com/pytest-dev/pytest
 pytest = "^7.4.3"

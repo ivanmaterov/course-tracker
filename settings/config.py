@@ -1,8 +1,14 @@
 import secrets
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, List, Optional, Union
 
-from pydantic import AnyHttpUrl, HttpUrl, PostgresDsn, validator
-from pydantic_settings import BaseSettings
+from pydantic import (
+    AnyHttpUrl,
+    HttpUrl,
+    PostgresDsn,
+    ValidationInfo,
+    field_validator,
+)
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -13,27 +19,27 @@ class Settings(BaseSettings):
     # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl]
 
-    @validator('BACKEND_CORS_ORIGINS', pre=True)
+    @field_validator('BACKEND_CORS_ORIGINS', mode='before')
     def assemble_cors_origins(
         cls,
-        v: Union[str, List[str]],
+        value: Union[str, List[str]],
     ) -> Union[List[str], str]:
-        if isinstance(v, str) and not v.startswith('['):
-            return [i.strip() for i in v.split(',')]
-        elif isinstance(v, (list, str)):
-            return v
-        raise ValueError(v)
+        if isinstance(value, str) and not value.startswith('['):
+            return [i.strip() for i in value.split(',')]
+        elif isinstance(value, (list, str)):
+            return value
+        raise ValueError(value)
 
     PROJECT_NAME: str
 
     # TODO: Add support of sentry
     SENTRY_DSN: Optional[HttpUrl] = None
 
-    @validator('SENTRY_DSN', pre=True)
-    def sentry_dsn_can_be_blank(cls, v: str) -> Optional[str]:
-        if not v or len(v) == 0:
+    @field_validator('SENTRY_DSN', mode='before')
+    def sentry_dsn_can_be_blank(cls, value: str) -> Optional[str]:
+        if not value or len(value) == 0:
             return None
-        return v
+        return value
 
     POSTGRES_SERVER: str
     POSTGRES_USER: str
@@ -41,26 +47,46 @@ class Settings(BaseSettings):
     POSTGRES_DB: str
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
-    @validator('SQLALCHEMY_DATABASE_URI', pre=True)
+    @field_validator('SQLALCHEMY_DATABASE_URI', mode='before')
     def assemble_db_connection(
         cls,
-        v: Optional[str],
-        values: Dict[str, Any],
+        value: Optional[str],
+        info: ValidationInfo,
     ) -> Any:
-        if isinstance(v, str):
-            return v
+        data = info.data
+        if isinstance(value, str):
+            return value
         return PostgresDsn.build(
             scheme='postgresql',
-            username=values.get('POSTGRES_USER'),
-            password=values.get('POSTGRES_PASSWORD'),
-            host=values.get('POSTGRES_SERVER'),
-            path=f'{values.get('POSTGRES_DB') or ''}',
+            username=data.get('POSTGRES_USER'),
+            password=data.get('POSTGRES_PASSWORD'),
+            host=data.get('POSTGRES_SERVER'),
+            path=data.get('POSTGRES_DB'),
         )
 
-    class Config:
-        case_sensitive = True
-        env_file = '.env'
-        env_file_encoding = 'utf-8'
+    SQLALCHEMY_TESTING_DATABASE_URI: Optional[PostgresDsn] = None
+    POSTGRES_TESTING_DB: Optional[str] = None
+
+    @field_validator('SQLALCHEMY_TESTING_DATABASE_URI', mode='before')
+    def assemble_testing_db_connection(
+        cls,
+        value: Optional[str],
+        info: ValidationInfo,
+    ) -> Any:
+        data = info.data
+        return PostgresDsn.build(
+            scheme='postgresql',
+            username=data.get('POSTGRES_USER'),
+            password=data.get('POSTGRES_PASSWORD'),
+            host=data.get('POSTGRES_SERVER'),
+            path=data.get('POSTGRES_TESTING_DB', 'testing_db'),
+        )
+
+    model_config = SettingsConfigDict(
+        case_sensitive=True,
+        env_file='.env',
+        env_file_encoding='utf-8',
+    )
 
 
 settings = Settings()
