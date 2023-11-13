@@ -5,6 +5,18 @@ from app.serializers import course as course_serializers
 from sqlalchemy.orm import Session
 
 
+def test_get_multiple_courses(db: Session, course: Course) -> None:
+    """Test `get_multi` method for `Course` model."""
+    courses_from_db = course_crud.get_multi(db)
+    assert len(courses_from_db) == 1
+
+    courses_from_db_with_filtration = course_crud.get_multi(
+        db,
+        directions=[course.direction],
+    )
+    assert len(courses_from_db_with_filtration) == 1
+
+
 def test_get_course(db: Session, course: Course) -> None:
     """Test `get` method for `Course` model."""
     course_from_db = course_crud.get(db, id=course.id)

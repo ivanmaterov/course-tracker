@@ -71,6 +71,9 @@ saritasa-invocations = "^0.9.1"
 # A framework for managing and maintaining multi-language pre-commit hooks
 # https://github.com/pre-commit/pre-commit
 pre-commit = "^3.5.0"
+# For load testing
+# https://github.com/locustio/locust
+locust = "^2.18.3"
 
 [build-system]
 requires = ["poetry-core"]

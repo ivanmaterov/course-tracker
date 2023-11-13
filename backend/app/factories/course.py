@@ -14,4 +14,4 @@ class CourseFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Course
         sqlalchemy_session = ScopedFactorySession
-        sqlalchemy_session_persistence = 'commit'
+        sqlalchemy_session_persistence = 'flush'

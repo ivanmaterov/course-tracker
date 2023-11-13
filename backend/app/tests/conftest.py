@@ -1,8 +1,10 @@
 from typing import Any, Generator
 
 import pytest
+from app.api.dependencies import get_db
 from app.db.models import BaseModel, Course
 from app.factories import CourseFactory, ScopedFactorySession
+from fastapi.testclient import TestClient
 from settings.config import settings
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
@@ -45,7 +47,7 @@ def configure_session_factory(testing_db_engine: Engine) -> None:
 
 
 @pytest.fixture
-def db(testing_db_engine: Engine) -> Session:
+def db(testing_db_engine: Engine) -> Generator[Session, Any, None]:
     """Testing database session.
 
     Creates a fresh sqlalchemy session for each test that operates in a
@@ -62,6 +64,16 @@ def db(testing_db_engine: Engine) -> Session:
     session.close()
     transaction.rollback()
     connection.close()
+
+
+@pytest.fixture
+def client(db: Session) -> Generator:
+    # import here to not initiate app during database tests
+    from app.main import app
+
+    app.dependency_overrides[get_db] = lambda: db
+    with TestClient(app) as c:
+        yield c
 
 
 @pytest.fixture

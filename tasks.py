@@ -29,7 +29,7 @@ ns.configure(
             ),
             fastapi=invocations.FastAPISettings(
                 app='app.main:app',
-                params='--app-dir backend',
+                params='--app-dir backend --reload',
             ),
             alembic=invocations.AlembicSettings(
                 migrations_folder='backend/alembic/versions',
