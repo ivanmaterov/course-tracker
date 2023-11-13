@@ -12,17 +12,3 @@ class CourseToCreate(Course):
 
 class CourseToUpdate(Course):
     pass
-
-
-# class CourseInBDBase(CourseBase):
-#     id: int
-#     direction: str
-#     value: float
-
-#     class Config:
-#         from_attributes = True
-
-
-# # Properties to return to client
-# class Course(CourseInBDBase):
-#     pass

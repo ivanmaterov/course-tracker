@@ -9,6 +9,8 @@ services:
     ports:
       # to use external connection
       - "5432:5432"
+    env_file:
+      - .env
     deploy:
       placement:
         # https://docs.docker.com/engine/reference/commandline/service_create/#constraint
@@ -25,29 +27,8 @@ services:
     depends_on:
       - postgres
     # Don't use this command for production
-    # command: uvicorn --reload --host 0.0.0.0 --port 8000 --log-level info app.main:app
-
-    command: gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --config python:settings.gunicorn_conf
-
-  scheduler:
-    build:
-      context: ./cripto_requestor_app/scheduler/
-      dockerfile: ../Dockerfile
-
-  receiver:
-    build:
-      context: ./cripto_requestor_app/receiver/
-      dockerfile: ../Dockerfile
-
-  worker:
-    build:
-      context: ./cripto_requestor_app/worker/
-      dockerfile: ../Dockerfile
-    environment:
-      - RECEIVER_ADDR=tcp://receiver:5558
-      - SCHEDULER_ADDR=tcp://scheduler:5559
-    depends_on:
-      - postgres
+    command: uvicorn --reload --host 0.0.0.0 --port 8000 --log-level info app.main:app
+    # command: gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --config python:settings.gunicorn_conf
 
 volumes:
   database-volume:

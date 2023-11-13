@@ -1,0 +1,19 @@
+version: "3.3"
+services:
+  scheduler:
+    build:
+      context: ./cripto_requestor_app/scheduler/
+      dockerfile: ../Dockerfile
+
+  receiver:
+    build:
+      context: ./cripto_requestor_app/receiver/
+      dockerfile: ../Dockerfile
+
+  worker:
+    build:
+      context: ./cripto_requestor_app/worker/
+      dockerfile: ../Dockerfile
+    environment:
+      - RECEIVER_ADDR=tcp://receiver:5558
+      - SCHEDULER_ADDR=tcp://scheduler:5559
