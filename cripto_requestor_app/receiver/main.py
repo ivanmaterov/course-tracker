@@ -5,7 +5,7 @@ import psycopg2
 import zmq
 from custom_types import Data
 
-# SQL to insert or update data to `Course` table
+# SQL to insert or update data for `Course` table
 INSERT_TO_COURSES_SQL = """
 INSERT INTO
     course (direction, value)
