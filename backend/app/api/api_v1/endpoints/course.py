@@ -1,8 +1,7 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-
 from app import serializers
 from app.db import crud
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
 from ... import dependencies
 

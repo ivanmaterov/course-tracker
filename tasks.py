@@ -1,5 +1,4 @@
 import invoke
-
 import saritasa_invocations as invocations
 
 ns = invoke.Collection(

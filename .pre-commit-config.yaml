@@ -1,6 +1,5 @@
 default_stages: [commit, push]
-files: ^app/|^settings/|^alembic/
-exclude: ^alembic/versions/
+exclude: ^app/alembic/versions/
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks

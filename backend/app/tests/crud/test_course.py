@@ -1,9 +1,8 @@
-from sqlalchemy.orm import Session
-
 from app import factories
 from app.db.crud import course_crud
 from app.db.models import Course
 from app.serializers import course as course_serializers
+from sqlalchemy.orm import Session
 
 
 def test_get_course(db: Session, course: Course) -> None:

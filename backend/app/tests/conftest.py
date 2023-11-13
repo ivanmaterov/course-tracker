@@ -1,14 +1,13 @@
 from typing import Any, Generator
 
 import pytest
+from app.db.models import BaseModel, Course
+from app.factories import CourseFactory, ScopedFactorySession
+from settings.config import settings
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy_utils import create_database, database_exists
-
-from app.db.models import BaseModel, Course
-from app.factories import CourseFactory, ScopedFactorySession
-from settings.config import settings
 
 
 def _get_or_create_engine(db_uri: str) -> Engine:
